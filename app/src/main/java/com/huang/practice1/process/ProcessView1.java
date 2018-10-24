@@ -63,6 +63,7 @@ public class ProcessView1 extends View {
     private HashMap<Integer, List<Rect>> rects = new HashMap<>();
 
     private HashMap<Integer, List<String>> texts;
+    private HashMap<Integer, List<Boolean>> isRecorder;
 
     private OnItemClickListener listener = null;
 
@@ -148,7 +149,8 @@ public class ProcessView1 extends View {
                     rectBorder.left = hIndex * tempWidth + hIndex * horizontalSpace;
                     rectBorder.right = tempWidth + rectBorder.left;
                 }
-                drawContent(canvas, rectBorder, str);
+                drawBackground(canvas, rectBorder, isRecorder.get(vIndex).get(hIndex));
+                drawContent(canvas, rectBorder, str, isRecorder.get(vIndex).get(hIndex));
                 drawLinkLine(canvas, rectBorder, hNum, vIndex);
                 list.add(rectBorder);
             }
@@ -156,29 +158,38 @@ public class ProcessView1 extends View {
         }
     }
 
-    /**
-     * 画文字和背景
+    /***
+     * 画背景
+     * @param isRecordColor
      */
-    private void drawContent(Canvas canvas, Rect rect, String str) {
-        //paint.setColor(Color.parseColor("#008577"));
+    private void drawBackground(Canvas canvas, Rect rect, boolean isRecordColor) {
+        paint.setColor(isRecordColor ? Color.RED : itemColor);
         canvas.drawRect(rect, paint);
-        //paint.setColor(Color.parseColor("#ffffff"));
+    }
+
+    /***
+     * 画文字
+     * @param isRecordColor
+     */
+    private void drawContent(Canvas canvas, Rect rect, String str, boolean isRecordColor) {
+        paint.setColor(isRecordColor ? Color.GREEN : itemColor);
         canvas.drawText(str
                 , (rect.right + rect.left) / 2f
                 , (rect.bottom + rect.top) / 2f + textHeight / 2 - paint.getFontMetrics().descent
                 , paint);
+
     }
 
     /***
      * 画连接线
      * @param rect     当前Item的Rect
      * @param currHNum 当前的水平方向 有多少个Item
-     * @param vIndex 当前是垂直方向的第几个
+     * @param vIndex   当前是垂直方向的第几个
      */
     private void drawLinkLine(Canvas canvas, Rect rect, int currHNum, int vIndex) {
-        paint.setColor(itemColor);
         int stopX = getX(rect);
         int startX = getX(rect);
+        paint.setColor(itemColor);
 
         if (vIndex < verticalNum - 1) {
             //画Item下面一半的垂直连接线
@@ -244,8 +255,14 @@ public class ProcessView1 extends View {
         return new Result(false, 0, 0);
     }
 
-    public void setTexts(HashMap<Integer, List<String>> texts) {
-        this.texts = texts;
+    /***
+     * 填充数据 设置进度
+     * @param data
+     * @param recorder
+     */
+    public void setData(HashMap<Integer, List<String>> data, HashMap<Integer, List<Boolean>> recorder) {
+        this.texts = data;
+        this.isRecorder = recorder;
         invalidate();
     }
 
