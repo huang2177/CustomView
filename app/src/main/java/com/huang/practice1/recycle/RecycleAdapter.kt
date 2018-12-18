@@ -43,7 +43,7 @@ class RecycleAdapter(var mContext: Context) : BaseRecyclerAdapter<RecycleAdapter
 
         init {
             view.process_view1.setOnItemClickListener(this)
-            view.process_view1.setTexts(getTextShow())
+            //view.process_view1.setTexts(getTextShow())
         }
     }
 

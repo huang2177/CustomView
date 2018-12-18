@@ -2,6 +2,7 @@ package com.huang.practice1.process;
 
 import android.app.Activity;;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.huang.practice1.R;
 
@@ -11,13 +12,14 @@ import java.util.*;
  * Des:
  * Created by huang on 2018/10/19 0019 10:46
  */
-public class ProcessActivity extends Activity {
+public class ProcessActivity extends Activity implements ProcessView1.OnItemClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_process);
         ProcessView1 view1 = findViewById(R.id.pv);
         view1.setData(getTextShow(), isSelected());
+        view1.setOnItemClickListener(this);
     }
 
     public HashMap<Integer, List<String>> getTextShow() {
@@ -56,5 +58,10 @@ public class ProcessActivity extends Activity {
         map.put(5, text6);
         map.put(6, text7);
         return map;
+    }
+
+    @Override
+    public void onItemClick(int vPosition, int hPosition, String text) {
+        Toast.makeText(this, "点击了第" + (vPosition + 1) + "排，第" + (hPosition + 1) + "个item", Toast.LENGTH_SHORT).show();
     }
 }

@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.graphics.Rect;
+import android.graphics.Path;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -55,17 +58,22 @@ public class ProcessView1 extends View {
 
     private float textHeight = 0f;
 
+    private Path path = new Path();
     private Paint paint = new Paint();
+    private Paint linkPaint = new Paint();
+    private Paint circlePaint = new Paint();
 
-    private Rect lastItemRect;
+    private RectF lastItemRectF;
 
-    //用来保存每隔item的Rect，用于后面的点击事件判断
-    private HashMap<Integer, List<Rect>> rects = new HashMap<>();
+    //用来保存每隔item的RectF，用于后面的点击事件判断
+    private HashMap<Integer, List<RectF>> rects = new HashMap<>();
 
     private HashMap<Integer, List<String>> texts;
     private HashMap<Integer, List<Boolean>> isRecorder;
 
     private OnItemClickListener listener = null;
+    private float mBigRadius = 18f;
+    private float mSmallRadius = 14f;
 
     public ProcessView1(Context context) {
         this(context, null);
@@ -92,8 +100,18 @@ public class ProcessView1 extends View {
         paint.setAntiAlias(true);
         paint.setColor(itemColor);
         paint.setTextSize(itemTextSize);
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(Paint.Style.FILL);
         paint.setTextAlign(Paint.Align.CENTER);
+
+        linkPaint.setAntiAlias(true);
+        linkPaint.setStrokeWidth(1.5f);
+        linkPaint.setStyle(Paint.Style.STROKE);
+        linkPaint.setColor(Color.parseColor("#008EFF"));
+        linkPaint.setPathEffect(new DashPathEffect(new float[]{8, 4}, 0));
+
+        circlePaint.setAntiAlias(true);
+        circlePaint.setStrokeWidth(1.5f);
+        circlePaint.setColor(Color.parseColor("#008EFF"));
 
         textHeight = paint.getFontMetrics().descent - paint.getFontMetrics().ascent + paint.getFontMetrics().leading;
     }
@@ -130,13 +148,13 @@ public class ProcessView1 extends View {
     @Override
     public void onDraw(Canvas canvas) {
         for (int vIndex = 0; vIndex < verticalNum; vIndex++) {
-            List<Rect> list = new ArrayList<>();
+            List<RectF> list = new ArrayList<>();
             int hNum = Integer.parseInt(horizontalNum[vIndex]);
             // item实际宽度
             int tempWidth = (getWidth() - horizontalSpace * (hNum - 1)) / hNum;
 
             for (int hIndex = 0; hIndex < hNum; hIndex++) {
-                Rect rectBorder = new Rect();
+                RectF rectBorder = new RectF();
                 String str = texts != null ? texts.get(vIndex).get(hIndex) : "----";
                 rectBorder.top = vIndex * itemHeight + vIndex * verticalSpace;
                 rectBorder.bottom = rectBorder.top + itemHeight;
@@ -149,8 +167,12 @@ public class ProcessView1 extends View {
                     rectBorder.left = hIndex * tempWidth + hIndex * horizontalSpace;
                     rectBorder.right = tempWidth + rectBorder.left;
                 }
-                drawBackground(canvas, rectBorder, isRecorder.get(vIndex).get(hIndex));
-                drawContent(canvas, rectBorder, str, isRecorder.get(vIndex).get(hIndex));
+                boolean recorder = isRecorder == null || isRecorder.size() == 0
+                        ? false
+                        : isRecorder.get(vIndex).get(hIndex);
+                drawBackground(canvas, rectBorder, recorder);
+                drawContent(canvas, rectBorder, str, recorder);
+                drawCircle(canvas, rectBorder, hNum, vIndex);
                 drawLinkLine(canvas, rectBorder, hNum, vIndex);
                 list.add(rectBorder);
             }
@@ -162,58 +184,95 @@ public class ProcessView1 extends View {
      * 画背景
      * @param isRecordColor
      */
-    private void drawBackground(Canvas canvas, Rect rect, boolean isRecordColor) {
+    private void drawBackground(Canvas canvas, RectF rect, boolean isRecordColor) {
         paint.setColor(isRecordColor ? Color.RED : itemColor);
-        canvas.drawRect(rect, paint);
+        canvas.drawRoundRect(rect, 10f, 10f, paint);
     }
 
     /***
      * 画文字
      * @param isRecordColor
      */
-    private void drawContent(Canvas canvas, Rect rect, String str, boolean isRecordColor) {
-        paint.setColor(isRecordColor ? Color.GREEN : itemColor);
+    private void drawContent(Canvas canvas, RectF rect, String str, boolean isRecordColor) {
+//        paint.setColor(isRecordColor ? Color.parseColor("#008EFF") : itemColor);
+        paint.setColor(Color.WHITE);
         canvas.drawText(str
                 , (rect.right + rect.left) / 2f
                 , (rect.bottom + rect.top) / 2f + textHeight / 2 - paint.getFontMetrics().descent
                 , paint);
-
     }
 
     /***
      * 画连接线
-     * @param rect     当前Item的Rect
+     * @param rect     当前Item的RectF
      * @param currHNum 当前的水平方向 有多少个Item
      * @param vIndex   当前是垂直方向的第几个
      */
-    private void drawLinkLine(Canvas canvas, Rect rect, int currHNum, int vIndex) {
+    private void drawLinkLine(Canvas canvas, RectF rect, int currHNum, int vIndex) {
         int stopX = getX(rect);
         int startX = getX(rect);
-        paint.setColor(itemColor);
+        int hIndex = Integer.parseInt(horizontalNum[vIndex]);
 
+        /**
+         * 连接线(下半部分)
+         * vIndex != 2 （处理部分重复的连线，可根据需求修改）
+         */
         if (vIndex < verticalNum - 1) {
-            //画Item下面一半的垂直连接线
-            canvas.drawLine(startX, rect.bottom, stopX, (rect.bottom + verticalSpace / 2f), paint);
+            //画垂直连接线
+            path.moveTo(startX, rect.bottom);
+            path.lineTo(stopX, hIndex != 1
+                    ? (rect.bottom + verticalSpace / 2f) - mBigRadius
+                    : (rect.bottom + verticalSpace / 2f));
 
             //画水平连接线
-            if (currHNum > 1 && lastItemRect != null && lastItemRect.top == rect.top) {
-                canvas.drawLine(getX(lastItemRect), (rect.bottom + verticalSpace / 2f), getX(rect), (rect.bottom + verticalSpace / 2f), paint);
+            if (lastItemRectF != null && lastItemRectF.top == rect.top && vIndex != 2) {
+                path.moveTo(getX(lastItemRectF) + mBigRadius, (lastItemRectF.bottom + verticalSpace / 2f));
+                path.lineTo(getX(rect) - mBigRadius, (rect.bottom + verticalSpace / 2f));
             }
         }
 
+        /**
+         * 画连接线(上半部分)
+         * vIndex != 6（处理部分重复的连线，可根据需求修改）
+         */
         if (vIndex != 0) {
-            //画Item上面一半的垂直连接线
-            canvas.drawLine(startX, (rect.top - verticalSpace / 2f), stopX, rect.top, paint);
+            //垂直连接线
+            path.moveTo(startX, hIndex != 1
+                    ? (rect.top - verticalSpace / 2f) + mBigRadius
+                    : (rect.top - verticalSpace / 2f));
+            path.lineTo(stopX, rect.top);
 
-            //画水平连接线
-            if (currHNum > 1 && lastItemRect != null && lastItemRect.top == rect.top) {
-                canvas.drawLine(getX(lastItemRect), (rect.top - verticalSpace / 2f), getX(rect), (rect.top - verticalSpace / 2f), paint);
+            //水平连接线
+            if (lastItemRectF != null && lastItemRectF.top == rect.top && vIndex != 6) {
+                path.moveTo(getX(lastItemRectF) + mBigRadius, (lastItemRectF.top - verticalSpace / 2f));
+                path.lineTo(getX(rect) - mBigRadius, (rect.top - verticalSpace / 2f));
             }
         }
-        lastItemRect = rect;
+        canvas.drawPath(path, linkPaint);
+        lastItemRectF = rect;
     }
 
-    private int getX(Rect rect) {
+    /***
+     * 画相交处的圆
+     * vIndex != 2（处理部分重复的连线，可根据需求修改）
+     */
+    private void drawCircle(Canvas canvas, RectF rect, int currHNum, int vIndex) {
+        if (vIndex > 0 && vIndex < verticalNum - 1 && currHNum > 1) {
+            circlePaint.setStyle(Paint.Style.FILL);
+            canvas.drawCircle(getX(rect), (rect.top - verticalSpace / 2f), mSmallRadius, circlePaint);
+            if (vIndex != 2) {
+                canvas.drawCircle(getX(rect), (rect.bottom + verticalSpace / 2f), mSmallRadius, circlePaint);
+            }
+
+            circlePaint.setStyle(Paint.Style.STROKE);
+            canvas.drawCircle(getX(rect), (rect.top - verticalSpace / 2f), mBigRadius, circlePaint);
+            if (vIndex != 2) {
+                canvas.drawCircle(getX(rect), (rect.bottom + verticalSpace / 2f), mBigRadius, circlePaint);
+            }
+        }
+    }
+
+    private int getX(RectF rect) {
         return (int) ((rect.left + rect.right) / 2f);
     }
 
@@ -244,9 +303,9 @@ public class ProcessView1 extends View {
         int eventY = (int) event.getY();
 
         for (int vIndex = 0; vIndex < rects.size(); vIndex++) {
-            List<Rect> list = rects.get(vIndex);
+            List<RectF> list = rects.get(vIndex);
             for (int hIndex = 0; hIndex < list.size(); hIndex++) {
-                Rect rect = list.get(hIndex);
+                RectF rect = list.get(hIndex);
                 if (rect.contains(eventX, eventY)) {
                     return new Result(true, vIndex, hIndex);
                 }

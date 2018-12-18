@@ -7,11 +7,10 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.os.Handler
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.View
-import android.view.animation.LinearInterpolator
+import android.view.animation.OvershootInterpolator
 import android.widget.Scroller
 import com.huang.practice1.R
 
@@ -32,7 +31,7 @@ class LyricsView(context: Context?, attrs: AttributeSet?) : View(context, attrs)
     private var centerPosition: Int = 0
     private var currLineHeight: Int   //当前行的高度
     private var textHeight: Float
-    private var scroller = Scroller(context, LinearInterpolator())
+    private var scroller = Scroller(context, OvershootInterpolator())
 
     private var mVelocityTracker: VelocityTracker
     private var rects: MutableList<Rect> = ArrayList()

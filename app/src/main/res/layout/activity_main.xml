@@ -13,27 +13,58 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="lyric"
             android:text="lyric"
-            android:textAllCaps="false"
-            android:onClick="lyric"/>
+            android:textAllCaps="false" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="baiduProgress"
             android:text="baiduProgress"
-            android:textAllCaps="false"
-            android:onClick="baiduProgress"/>
+            android:textAllCaps="false" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="miTime"
             android:text="miTime"
-            android:textAllCaps="false"
-            android:onClick="miTime"/>
+            android:textAllCaps="false" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="process"
             android:text="process"
-            android:textAllCaps="false"
-            android:onClick="process"/>
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="gaussian"
+            android:text="gaussianBlur"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="luckyPan"
+            android:text="luckyPan"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="danMu"
+            android:text="danMu"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="scale"
+            android:text="scale"
+            android:textAllCaps="false" />
 
 
     </LinearLayout>

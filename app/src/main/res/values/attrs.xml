@@ -23,4 +23,14 @@
         <attr name="space" format="dimension" />
         <attr name="radius" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="FallingView">
+        <attr name="type">
+            <enum name="snow" value="0" />
+            <enum name="rain" value="1" />
+            <enum name="coin" value="2" />
+        </attr>
+        <attr name="color" format="color" />
+    </declare-styleable>
+
 </resources>

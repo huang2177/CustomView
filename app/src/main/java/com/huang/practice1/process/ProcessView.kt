@@ -117,7 +117,6 @@ class ProcessView(context: Context, attrs: AttributeSet) : View(context, attrs) 
                 }
                 drawContent(canvas, rectBorder, str)
                 drawDivider(canvas!!, rectBorder, hNum)
-                Log.e("---", "$rectBorder")
                 list.add(rectBorder)
             }
             rects[vIndex] = list

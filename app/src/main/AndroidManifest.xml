@@ -19,9 +19,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".lyrics.LyricActivity" />
-        <activity android:name=".process.ProcessActivity" />
+        <activity
+            android:name=".process.ProcessActivity" />
         <activity android:name=".mitime.MiTimeActivity" />
         <activity android:name=".baiduprogress.BaiduProgressActivity" />
+        <activity android:name=".gaussian_blur.GaussianBlurActivity" />
+        <activity android:name=".luckypan.LuckyPanActivity" />
+        <activity android:name=".danmu.DanMuActivity" />
+        <activity android:name=".scaleview.ScaleActivity" />
+
     </application>
 
 </manifest>
