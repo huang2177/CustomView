@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  * Des:
  * Created by huang on 2018/10/19 0019 10:31
  */
-class FallObjectActivity : Activity() {
+class SnowDownActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fall_object)

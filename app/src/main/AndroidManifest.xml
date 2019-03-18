@@ -27,6 +27,8 @@
         <activity android:name=".luckypan.LuckyPanActivity" />
         <activity android:name=".danmu.DanMuActivity" />
         <activity android:name=".scaleview.ScaleActivity" />
+        <activity android:name=".pinnedheader.PinnedActivity" />
+        <activity android:name=".fallobject.SnowDownActivity" />
 
     </application>
 

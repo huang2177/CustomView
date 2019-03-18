@@ -45,25 +45,32 @@
             android:text="gaussianBlur"
             android:textAllCaps="false" />
 
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="luckyPan"-->
+            <!--android:text="luckyPan"-->
+            <!--android:textAllCaps="false" />-->
+
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="danMu"-->
+            <!--android:text="danMu"-->
+            <!--android:textAllCaps="false" />-->
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="luckyPan"
-            android:text="luckyPan"
+            android:onClick="snowDown"
+            android:text="snowDown"
             android:textAllCaps="false" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="danMu"
-            android:text="danMu"
-            android:textAllCaps="false" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="scale"
-            android:text="scale"
+            android:onClick="pinned"
+            android:text="pinned"
             android:textAllCaps="false" />
 
 

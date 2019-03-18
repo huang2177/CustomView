@@ -2,14 +2,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#123"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#65B2FF">
 
 
-    <com.huang.practice1.fallobject.FallingView
-        android:id="@+id/lyric"
+    <com.huang.practice1.fallobject.SnowDownView
+        android:id="@+id/snow"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:color="#ffffff"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
