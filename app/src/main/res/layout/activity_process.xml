@@ -10,8 +10,9 @@
         android:layout_height="45dp"
         android:background="#123"
         android:gravity="center"
-        android:text="我是Title"
+        android:text="流程图"
         android:textColor="#fff"
+        android:textStyle="bold"
         android:textSize="18sp" />
 
     <com.huang.practice1.process.ProcessView1
