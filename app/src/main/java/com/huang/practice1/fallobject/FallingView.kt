@@ -1,37 +1,34 @@
 package com.huang.practice1.fallobject
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import com.huang.practice1.R
-import java.util.*
 
 
 /**
  * Des:仿雪花飘落（）
  * Created by huang on 2018/10/19 0019 16:39
  */
-class SnowDownView(context: Context, attrs: AttributeSet) : View(context, attrs), Runnable {
+class FallingView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var color: Int
     private var paint = Paint()
-    private val random = Random()
 
-    private var ViewWidth = 0
-    private var ViewHeight = 0
     private val defaultWidth = 600//默认宽度
     private val defaultHeight = 1000//默认高度
     private val intervalTime = 40L//重绘间隔时间
 
-    private var snowX = 0f
-    private var snowY = 0f
+    private var fallObjects = mutableListOf<FallObject>()
+
 
     init {
-        val arrays = context.obtainStyledAttributes(attrs, R.styleable.SnowDownView)
-        color = arrays.getColor(R.styleable.SnowDownView_color, Color.WHITE)
+        val arrays = context.obtainStyledAttributes(attrs, R.styleable.FallingView)
+        color = arrays.getColor(R.styleable.FallingView_color, Color.WHITE)
         arrays.recycle()
 
         paint.color = color
@@ -59,23 +56,40 @@ class SnowDownView(context: Context, attrs: AttributeSet) : View(context, attrs)
         return result
     }
 
-    var canvas: Canvas? = null
+    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
-        this.canvas = canvas
-        handler.postDelayed(this, intervalTime)
-    }
-
-    private fun getRandomX() {
-        snowX = random.nextInt(width).toFloat()
-        canvas?.drawCircle(snowX, snowY, 25f, paint)
-    }
-
-    override fun run() {
-        getRandomX()
-        snowY += 10f
-        if (snowY > height) {
-            snowY = 0f
+        if (fallObjects.size <= 0) {
+            return
         }
+        for (i in 0 until fallObjects.size) {
+            fallObjects[i].drawObject(canvas)
+        }
+
+        // 隔一段时间重绘一次, 动画效果
+        handler.postDelayed({ invalidate() }, intervalTime)
+
+    }
+
+
+    /**
+     * 向View添加下落物体对象
+     * @param builder
+     * @param num
+     */
+    fun addFallObject(builder: Builder, num: Int) {
+        viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                viewTreeObserver.removeOnPreDrawListener(this)
+                for (i in 0 until num) {
+                    val newFallObject = FallObject(builder, width, height)
+                    fallObjects.add(newFallObject)
+                }
+                return true
+            }
+        })
+    }
+
+    fun start() {
         invalidate()
     }
 

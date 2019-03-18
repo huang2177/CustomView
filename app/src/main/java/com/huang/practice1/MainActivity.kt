@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.huang.practice1.baiduprogress.BaiduProgressActivity
-import com.huang.practice1.fallobject.SnowDownActivity
+import com.huang.practice1.fallobject.FallingActivity
 import com.huang.practice1.gaussian_blur.GaussianBlurActivity
 import com.huang.practice1.lyrics.LyricActivity
 import com.huang.practice1.mitime.MiTimeActivity
@@ -35,12 +35,12 @@ class MainActivity : Activity() {
         startActivity(Intent(this, ProcessActivity::class.java))
     }
 
-    fun gaussian(view: View) {
-        startActivity(Intent(this, GaussianBlurActivity::class.java))
-    }
+//    fun gaussian(view: View) {
+//        startActivity(Intent(this, GaussianBlurActivity::class.java))
+//    }
 
     fun snowDown(view: View) {
-        startActivity(Intent(this, SnowDownActivity::class.java))
+        startActivity(Intent(this, FallingActivity::class.java))
     }
 
 //    fun danMu(view: View) {

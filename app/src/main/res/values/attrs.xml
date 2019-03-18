@@ -24,7 +24,7 @@
         <attr name="radius" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="SnowDownView">
+    <declare-styleable name="FallingView">
         <attr name="color" format="color" />
     </declare-styleable>
 

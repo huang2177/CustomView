@@ -28,7 +28,7 @@
         <activity android:name=".danmu.DanMuActivity" />
         <activity android:name=".scaleview.ScaleActivity" />
         <activity android:name=".pinnedheader.PinnedActivity" />
-        <activity android:name=".fallobject.SnowDownActivity" />
+        <activity android:name=".fallobject.FallingActivity" />
 
     </application>
 
