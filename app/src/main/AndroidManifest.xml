@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.huang.practice1">
+    package="com.huang.customview">
 
     <application
         android:allowBackup="true"
@@ -18,18 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".lyrics.LyricActivity" />
-        <activity
-            android:name=".process.ProcessActivity" />
-        <activity android:name=".mitime.MiTimeActivity" />
-        <activity android:name=".baiduprogress.BaiduProgressActivity" />
-        <activity android:name=".gaussian_blur.GaussianBlurActivity" />
-        <activity android:name=".luckypan.LuckyPanActivity" />
-        <activity android:name=".danmu.DanMuActivity" />
-        <activity android:name=".scaleview.ScaleActivity" />
-        <activity android:name=".pinnedheader.PinnedActivity" />
-        <activity android:name=".fallobject.FallingActivity" />
 
+        <activity android:name=".lyrics.LyricActivity" />
+        <activity android:name=".process.ProcessActivity" />
+        <activity android:name=".miTime.MiTimeActivity" />
+        <activity android:name=".baiduProgress.BaiduProgressActivity" />
+        <activity android:name=".gaussianBlur.GaussianBlurActivity" />
+        <activity android:name=".fallObject.FallingActivity" />
     </application>
+
 
 </manifest>

@@ -15,7 +15,7 @@
         android:textStyle="bold"
         android:textSize="18sp" />
 
-    <com.huang.practice1.process.ProcessView1
+    <com.huang.customview.process.ProcessView1
         android:id="@+id/pv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

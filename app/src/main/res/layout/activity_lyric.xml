@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
 
-    <com.huang.practice1.lyrics.LyricsView
+    <com.huang.customview.lyrics.LyricsView
         android:id="@+id/lyric"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

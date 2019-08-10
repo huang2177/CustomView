@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="35dp">
 
-    <com.huang.practice1.mitime.MiTimeView
+    <com.huang.customview.miTime.MiTimeView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
