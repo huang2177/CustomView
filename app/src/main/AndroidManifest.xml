@@ -25,6 +25,7 @@
         <activity android:name=".baiduProgress.BaiduProgressActivity" />
         <activity android:name=".gaussianBlur.GaussianBlurActivity" />
         <activity android:name=".fallObject.FallingActivity" />
+        <activity android:name=".netHotClock.NetHotClockActivity" />
     </application>
 
 

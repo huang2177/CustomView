@@ -10,6 +10,7 @@ import com.huang.customview.fallObject.FallingActivity
 import com.huang.customview.gaussianBlur.GaussianBlurActivity
 import com.huang.customview.lyrics.LyricActivity
 import com.huang.customview.miTime.MiTimeActivity
+import com.huang.customview.netHotClock.NetHotClockActivity
 
 class MainActivity : Activity() {
 
@@ -34,11 +35,15 @@ class MainActivity : Activity() {
         startActivity(Intent(this, ProcessActivity::class.java))
     }
 
-    fun gaussian(view: View) {
-        startActivity(Intent(this, GaussianBlurActivity::class.java))
-    }
-
     fun snowDown(view: View) {
         startActivity(Intent(this, FallingActivity::class.java))
+    }
+
+    fun netHotClock(view: View) {
+        startActivity(Intent(this, NetHotClockActivity::class.java))
+    }
+
+    fun gaussian(view: View) {
+        startActivity(Intent(this, GaussianBlurActivity::class.java))
     }
 }

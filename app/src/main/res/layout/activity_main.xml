@@ -48,6 +48,13 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="netHotClock"
+            android:text="netHotClock"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:onClick="gaussian"
             android:text="gaussian"
             android:textAllCaps="false" />
