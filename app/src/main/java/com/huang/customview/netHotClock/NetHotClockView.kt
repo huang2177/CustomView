@@ -1,6 +1,5 @@
 package com.huang.customview.netHotClock
 
-import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
@@ -8,9 +7,8 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
-import com.huang.customview.netHotClock.Config.Companion.NUMBER_TEXT_LIST
+import com.huang.customview.extended.*
 import java.util.Calendar.*
 import kotlin.properties.Delegates
 
@@ -195,59 +193,6 @@ class NetHotClockView(context: Context, attr: AttributeSet) : View(context, attr
             paint.textAlign = Paint.Align.CENTER
             canvas.drawText("$month.$day 星期$week", 0f, paint.getToppedY(), paint)
         }
-    }
-
-    /**
-     * 扩展获取绘制文字时在x轴上 垂直居中的y坐标
-     */
-    private fun Paint.getCenteredY(): Float {
-        return this.fontSpacing / 2 - this.fontMetrics.bottom
-    }
-
-    /**
-     * 扩展获取绘制文字时在x轴上 贴紧x轴的上边缘的y坐标
-     */
-    private fun Paint.getBottomedY(): Float {
-        return -this.fontMetrics.bottom
-    }
-
-    /**
-     * 扩展获取绘制文字时在x轴上 贴近x轴的下边缘的y坐标
-     */
-    private fun Paint.getToppedY(): Float {
-        return -this.fontMetrics.ascent
-    }
-
-    private fun dp2px(dpValue: Float): Float {
-        val scale = resources.displayMetrics.density
-        return dpValue * scale + 0.5f
-    }
-
-    private fun Int.addLeadingZero(): String {
-        return if (this < 10) "0$this" else this.toString()
-    }
-
-    /**
-     * 数字转换文字
-     */
-    private fun Int.toText(): String {
-        var result = ""
-        val iArr = "$this".toCharArray().map { it.toString().toInt() }
-
-        //处理 10，11，12.. 20，21，22.. 等情况
-        if (iArr.size > 1) {
-            if (iArr[0] != 1) {
-                result += NUMBER_TEXT_LIST[iArr[0]]
-            }
-            result += "十"
-            if (iArr[1] > 0) {
-                result += NUMBER_TEXT_LIST[iArr[1]]
-            }
-        } else {
-            result = NUMBER_TEXT_LIST[iArr[0]]
-        }
-
-        return result
     }
 }
 
