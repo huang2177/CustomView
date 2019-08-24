@@ -7,6 +7,7 @@ import android.view.View
 import com.huang.customview.process.ProcessActivity
 import com.huang.customview.baiduProgress.BaiduProgressActivity
 import com.huang.customview.fallObject.FallingActivity
+import com.huang.customview.foldLine.FoldLineActivity
 import com.huang.customview.gaussianBlur.GaussianBlurActivity
 import com.huang.customview.lyrics.LyricActivity
 import com.huang.customview.miTime.MiTimeActivity
@@ -45,5 +46,9 @@ class MainActivity : Activity() {
 
     fun gaussian(view: View) {
         startActivity(Intent(this, GaussianBlurActivity::class.java))
+    }
+
+    fun foldLine(view: View) {
+        startActivity(Intent(this, FoldLineActivity::class.java))
     }
 }

@@ -2,6 +2,7 @@ package com.huang.customview.extended
 
 import android.content.res.Resources
 import android.graphics.Paint
+import android.graphics.Rect
 import com.huang.customview.netHotClock.Config
 
 /**
@@ -25,9 +26,26 @@ fun Paint.getToppedY(): Float {
     return -this.fontMetrics.ascent
 }
 
-fun dp2px(dpValue: Float, resources: Resources): Float {
-    val scale = resources.displayMetrics.density
-    return dpValue * scale + 0.5f
+fun Paint.getTextWidth(text: String): Float {
+    if (text.isEmpty()) return 0f
+    val rect = Rect()
+    getTextBounds(text, 0, text.length, rect)
+    return (rect.right - rect.left).toFloat()
+}
+
+fun Paint.getTextHeight(text: String): Float {
+    if (text.isEmpty()) return 0f
+    val rect = Rect()
+    getTextBounds(text, 0, text.length, rect)
+    return (rect.bottom - rect.top).toFloat()
+}
+
+fun dp2px(dpValue: Int, resources: Resources): Int {
+    return (dpValue * resources.displayMetrics.density + 0.5).toInt()
+}
+
+fun sp2px(spValue: Int, resources: Resources): Float {
+    return spValue * resources.displayMetrics.scaledDensity + 0.5f
 }
 
 fun Int.addLeadingZero(): String {
@@ -55,4 +73,21 @@ fun Int.toText(): String {
     }
 
     return result
+}
+
+fun Int.getWeekText(): String {
+    return when (this) {
+        0 -> "周一"
+        1 -> "周二"
+        2 -> "周三"
+        3 -> "周四"
+        4 -> "周五"
+        5 -> "周六"
+        6 -> "周天"
+        else -> "周一"
+    }
+}
+
+fun List<String>.level(index: Int): String {
+    return this[index]
 }

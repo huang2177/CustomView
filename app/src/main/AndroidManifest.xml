@@ -26,6 +26,7 @@
         <activity android:name=".gaussianBlur.GaussianBlurActivity" />
         <activity android:name=".fallObject.FallingActivity" />
         <activity android:name=".netHotClock.NetHotClockActivity" />
+        <activity android:name=".foldLine.FoldLineActivity" />
     </application>
 
 
