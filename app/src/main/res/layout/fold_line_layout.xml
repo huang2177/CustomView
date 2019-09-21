@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
-    <com.huang.customview.foldLine.FoldLineView
+    <com.huang.customview.foldLine.FoldLineViewJava
         android:id="@+id/foldLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
